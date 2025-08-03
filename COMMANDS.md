@@ -38,6 +38,13 @@
 git config --global user.name "Andip Chauhan"
 git config --global user.email "chauhan2244andip@gmail.com"
 git init
-git add monthly_challenges
+git add monthly_challenges .gitignore COMMANDS.md
 git commit -m "Initial commit with monthly_challenges"
+git add remote add origin https://github.com/andipchauhan/Django_Practice.git
+git remote -v
+git branch -m main
+git pull origin main
+git pull origin main --allow-unrelated-histories
+git add README.md
+git push -u origin main
 ```
