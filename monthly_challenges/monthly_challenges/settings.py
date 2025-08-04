@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "challenges",
+    # add our own apps for features like "auto template detection ('APP_DIRS': True)"
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,10 @@ ROOT_URLCONF = 'monthly_challenges.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # BASE_DIR / "challenges" / "templates"
+            # instead utilise the auto template detect feature " 'APP_DIRS': True " below
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
