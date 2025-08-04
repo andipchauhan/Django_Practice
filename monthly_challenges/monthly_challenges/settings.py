@@ -59,6 +59,7 @@ TEMPLATES = [
         'DIRS': [
             # BASE_DIR / "challenges" / "templates"
             # instead utilise the auto template detect feature " 'APP_DIRS': True " below
+            BASE_DIR / "templates"
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -120,6 +121,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS=[
+    BASE_DIR / "static"
+]
+# to make django also search for global static files
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

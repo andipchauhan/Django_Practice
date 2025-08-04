@@ -12,7 +12,7 @@ urlpatterns = [
     # WE CAN ALSO OMIT PATHS AT END, JUST AN EXPERIMENT NOT PRACTICAL (done on "localhost:8000/challenges" url)
     
     
-    path("",views.index), # /challenges/
+    path("",views.index,name="index"), # /challenges/
     # placeholder for dynamic/random/unhardcoded/any urls
     # checked int first because int can be converted to string ALWAYS, but not vice-versa
     # so convert into int if possible because into string is obviously possible, it already is string BTW

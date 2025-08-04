@@ -1,7 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import Http404, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
-from django.template.loader import render_to_string
 
 # Create your views here.
 
@@ -17,7 +16,7 @@ monthly_challenges={
     "september": "September : Exercise daily for whole month",
     "october": "October : Exercise daily for whole month",
     "november": "November : Exercise daily for whole month",
-    "december": "December : Exercise daily for whole month",
+    "december": None,
 }
 
 
@@ -36,10 +35,13 @@ def any_month_challenge(request,month_name):
             "text":challenge_text,
             "month":month_name
         })
-        # response_data=render_to_string("challenges/challenge.html")
-        # return HttpResponse(response_data)
     except:
-        return HttpResponseNotFound("<h1>Month couldn't be found</h1>")
+        raise Http404() # auto searches 404.html in templates folder
+        # response_data=render_to_string("404.html")
+        # return HttpResponseNotFound(response_data)
+    # can't use render() here becuase it always renders a successful response
+    # And we also want to send "404" not found error code
+    
 
 def any_month_number_challenge(request,month_number):
     months=list(monthly_challenges.keys())
