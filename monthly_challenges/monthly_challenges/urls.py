@@ -20,7 +20,7 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('challenges/', include("challenges.urls")),
-    # path('urlForSubApp/', include(subAppName.urlsFolderName))
+    # path('urlForSubApp/', include(subAppName.urlsFileName))
     # django app should handle requests sent to localhost:8000/challenges and forward those request internally to urls file of challenges app(module)
     # therefore we parse after url after /challenges/ in challenges subApp
     # http://localhost:8000/challenges/january
