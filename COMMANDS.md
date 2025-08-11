@@ -7,8 +7,8 @@
 5. cd Django_Venv
 6. django-admin
 <!-- python -m django --version -->
-7. django-admin startproject Django_Practice
-8. cd Django_Practice
+7. django-admin startproject monthly_challenges
+8. cd monthly_challenges
 9. dir
 10. doskey /history
 11. <!-- ..\..\Django_Venv\scripts\activate -->
@@ -60,4 +60,11 @@ git remote -v
 python manage.py startapp blog
 python manage.py runserver
 pip freeze > requirements.txt
+git log
+```
+
+### DAY X - In Django_Practice
+```
+django-admin startproject book_store
+
 ```
