@@ -66,5 +66,15 @@ git log
 ### DAY X - In Django_Practice
 ```
 django-admin startproject book_store
+python manage.py startapp book_outlet
+```
 
+### DAY X - Models and migrations
+- add book_outet in INSTALLED_APPS in settings.py (Django will also auto pickup the MODELS in that app )
+- Migrations define steps for Django to execute that will touch the DB and manipulate it e.g. creating new tables or updating existing ones
+- Therefore, whenever we work with models, we need to **CREATE** migrations and also **RUN** those to actually tell Django to update DB
+IN book_store (Overall project, NOT subapp)
+```
+python manage.py makemigrations  # Populates migration folders of all subApps/apps
+python manage.py migrate            # Looks for all the migrations and runs them
 ```
