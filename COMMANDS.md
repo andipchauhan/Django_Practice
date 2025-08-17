@@ -78,3 +78,102 @@ IN book_store (Overall project, NOT subapp)
 python manage.py makemigrations  # Populates migration folders of all subApps/apps
 python manage.py migrate            # Looks for all the migrations and runs them
 ```
+
+
+### Interacting with DB through terminal pyhton shell
+```
+python manage.py shell
+from book_outlet.models import Book
+
+harry_potter = Book(title = "Harry Potter 1 - The Philosopher's Stone", rating=5)
+harry_potter.save()  # will actually save data of this object in DB from this object
+
+lord_of_the_rings = Book(title="Lord of the Rings", rating=4)
+lord_of_the_rings.save()
+
+Book.objects.all()
+# modified __str__ in models.py to show actual object values
+Book.objects.all()[1].title
+```
+
+### UPDATING and DELETING the data via python shell
+```
+python manage.py shell
+from book_outlet.models import Book
+harry_potter = Book.objects.all()[0]
+harry_potter.title
+lotr = Book.objects.all()[1]
+
+harry_potter.author = "J.K. Rowling"
+harry_potter.is_bestseller = True
+harry_potter.save()             # updates the entry instead of creating a new one
+Book.objects.all()[0].author
+
+lotr.author = "J.R.R. Tolkien"
+lotr.is_bestseller = True
+lotr.save()
+Book.objects.all()[1].author
+
+# DELETING
+harry_potter = Book.objects.all()[0]
+harry_potter.delete()
+Book.objects.all()[0]  # will show LOTR
+
+Book.objects.all()[1].delete()
+```
+
+### CREATING ENTRIES instead of SAVE
+```
+Book.objects.create(title="Harry Potter 1", rating=5, author="J.K. Rowling", is_bestseller=True)
+            # Book(title="1984", author="George Orwell").save()
+
+Book.objects.create(title="My Life", rating=5, author="Andip Chauhan", is_bestseller=True)
+Book.objects.create(title="Some Random Book", rating=3, author="Random dude", is_bestseller=False)
+```
+
+
+### QUERYING and FILTERING data
+```
+Book.objects.get(id=5)     # an id is forever gone and not reassigned when an object/entry is deleted
+Book.objects.get(title="My Life")       # Only gets one entry
+Book.objects.get(is_bestseller=True)    # Error - Because multiple matches
+
+
+Book.objects.filter(is_bestseller=True)
+Book.objects.filter(is_bestseller=True, rating=4)   # multiple filters
+
+Book.objects.filter(rating__lte=4)    # lower than and equal (field lookups)
+Book.objects.filter(rating__lte=4, title__icontains="Rings")    # case insensetive (in sqlite case insensetive by default)
+```
+
+### Quering with OR
+```
+from django.db.models import Q
+Book.objects.filter(Q(rating__lt=4) | Q(is_bestseller=False))
+Book.objects.filter(Q(rating__lt=4) | Q(is_bestseller=True) , Q(author="J.K. Rowling"))   
+# can omit Q for and condition but it will have to come after all Q/OR conditions
+
+```
+
+### Chaining Queries
+```
+bestsellers = Book.objects.filter(is_bestseller=True)       # Not executed yet only stored in variable
+amazing_bestsellers = Book.objects.filter(rating__gt=4)     # db still not touched
+print(bestsellers)                                          # caches the result
+print(amazing_bestsellers)                                  # will cache bestsellers and use for amazing_bestsellers quering as it is based on it
+print(bestsellers)
+
+# DB only hit once until now
+# Wouldn't have cached if QUERYSET wasn't stored in a variable
+```
+
+### After slugify saving again to run custom save() function and populate slug column in existing entries
+```
+Book.objects.get(title="Harry Potter 1").slug
+Book.objects.get(title="Harry Potter 1").save()
+Book.objects.get(title="Harry Potter 1").slug
+
+Book.objects.get(title__contains="some").save()
+Book.objects.get(title="Some Random Book").save()
+
+```
