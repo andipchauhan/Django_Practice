@@ -177,3 +177,94 @@ Book.objects.get(title__contains="some").save()
 Book.objects.get(title="Some Random Book").save()
 
 ```
+
+
+
+### Django Admin feature for DB
+```
+python manage.py createsuperuser
+```
+
+### DELETING ALL BOOKS
+```
+python manage.py makemigrations
+python manage.py shell
+from book_outlet.models import Book
+Book.objects.all().delete()
+
+python manage.py migrate
+```
+
+### Making new entries RELATIONSHIPS (MANY TO ONE RELATION)
+```
+python manage.py shell
+from book_outlet.models import Book, Author
+jk = Author(first_name="J.K.", last_name="Rowling")
+jk.save()
+Author.objects.all()
+
+hp1= Book(title="Harry Potter 1", rating=5, is_bestseller=True, slug="harry-potter-1", author=jk)
+harrypotter = Book.objects.get(title="Harry Potter 1")
+harrypotter.author.first_name
+harrypotter.author.last_name
+
+books_by_rowling = Book.objects.filter(author__last_name__contains="ling")
+books_by_rowling
+books_by_rowling[0].title
+
+
+jkr = Author.objects.get(first_name="J.K.")
+jkr
+jkr.book_set
+jkr.book_set.all()
+```
+
+- Set "related_name='books'" in models
+
+```
+python manage.py makemigrations
+python manage.py migrate
+python manage.py shell
+from book_outlet.models import Book, Author
+jkr = Author.objects.get(first_name="J.K.")
+jkr.books
+jkr.books.all()
+jkr.books.filter(title__contains="arr")
+jkr.books.filter(rating__gt=3)
+```
+
+### ONE TO ONE RELATIONSHIP
+```
+python manage.py shell
+from book_outlet.models import Book, Author, Address
+add1 = Address(street="Some street", postal_code="12345", city="New York")
+add1.save()
+add2 = Address(street="Other street", postal_code="54321", city="London")
+add2.save()
+
+jkr = Author.objects.get(first_name="J.K.")
+jkr.address = add1
+jkr.save()
+jkr.address
+jkr.address.city
+
+Address.objects.all()[0].author
+Address.objects.all()[0].author.first_name
+```
+
+### MANY TO MANY RELATIONSHIP  (add() methods exists for many to many)
+```
+python manage.py shell
+from book_outlet.models import Book, Country
+hp1 = Book.objects.all()[0]
+hp1.published_countries.all()
+
+India = Country(name="India", code="+91")
+India.save()
+hp1.published_countries.add(India)
+hp1.published_countries.filter(code__contains=91)
+
+ind = Country.objects.all()[0]
+ind.book_set.all()
+in.books.all()                    # after setting related_name in models and migrating
+```
