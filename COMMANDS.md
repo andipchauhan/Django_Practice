@@ -276,4 +276,8 @@ in.books.all()                    # after setting related_name in models and mig
 django-admin startproject feedback
 cd feedback
 python manage.py startapp reviews
+python manage.py shell
+from reviews.models import Review
+Review.objects.all()
+Review.objects.all()[0].review_text
 ```
