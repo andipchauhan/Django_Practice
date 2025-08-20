@@ -19,8 +19,8 @@ def index(request):
 
 def book_detail(request, slug):
     # try:
-    #     book_obj = Book.objects.get(pk=id) # pk = primary key  
     # except Book.DoesNotExist:
+    #     book_obj = Book.objects.get(pk=id) # pk = primary key  
     #     raise Http404("Book not found")
 
     book_obj = get_object_or_404(Book, slug=slug)  
