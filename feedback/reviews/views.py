@@ -5,21 +5,29 @@ from .models import Review
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import FormView
-
+from django.views.generic.edit import FormView, CreateView
+# UpdateView and DeleteView also available
 from .forms import ReviewForm
 from .models import Review
 
 # Create your views here.
 
-class ReviewView(FormView):
+class ReviewView(CreateView):
+    # we don't even need the ReviewForm class in forms.py with CreateView, but we can use it also if we want custom labels and error messages
+    model = Review
     form_class = ReviewForm
     template_name = "reviews/review.html"
     success_url = "/thanks"
+    # will auto save and we don't need a form_valid method
+
+# class ReviewView(FormView):
+#     form_class = ReviewForm
+#     template_name = "reviews/review.html"
+#     success_url = "/thanks"
     
-    def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.save()
+#         return super().form_valid(form)
         
         
 # class ReviewView(View):
