@@ -3,6 +3,9 @@ from django.http import HttpResponseRedirect
 from .forms import ReviewForm
 from .models import Review
 from django.views import View
+from django.views.generic.base import TemplateView
+
+from .models import Review
 
 # Create your views here.
 
@@ -22,6 +25,36 @@ class ReviewView(View):
             'form': form
         })
 
+class ReviewListView(TemplateView):
+    template_name = 'reviews/review_list.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reviews'] = Review.objects.all()
+        return context
+    
+class ReviewDetailView(TemplateView):
+    template_name = 'reviews/review_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['review'] = Review.objects.get(id=kwargs['id'])
+        return context
+
+class ThanksView(TemplateView):
+    template_name = 'reviews/thanks.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['name'] = "Random name"
+        return context
+
+
+# class ThanksView(View):
+#     def get(self, request):
+#         return render(request, 'reviews/thanks.html')
+
+    
 
 # def review(request):
 #     if request.method == "POST":
@@ -42,5 +75,6 @@ class ReviewView(View):
 #         'form': form
 #     })
 
-def thanks(request):
-    return render(request, 'reviews/thanks.html')
+
+# def thanks(request):
+#     return render(request, 'reviews/thanks.html')
