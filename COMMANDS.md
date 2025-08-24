@@ -281,3 +281,8 @@ from reviews.models import Review
 Review.objects.all()
 Review.objects.all()[0].review_text
 ```
+
+# FILE UPLOADS
+```
+python manage.py startapp profiles
+```
