@@ -4,5 +4,6 @@ urlpatterns = [
     path('', views.ReviewView.as_view()),
     path('thanks', views.ThanksView.as_view()),
     path('reviews', views.ReviewListView.as_view()),
+    path('reviews/favorite', views.AddFavoriteView.as_view()),
     path('reviews/<int:pk>', views.ReviewDetailView.as_view()),
 ]

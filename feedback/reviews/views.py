@@ -12,6 +12,12 @@ from .models import Review
 
 # Create your views here.
 
+class AddFavoriteView(View):
+    def post(self,request):
+        review_id = request.POST['review_id']
+        request.session["favorite_review"] = review_id
+        return HttpResponseRedirect("/reviews/"+review_id)
+
 class ReviewView(CreateView):
     # we don't even need the ReviewForm class in forms.py with CreateView, but we can use it also if we want custom labels and error messages
     model = Review
@@ -61,6 +67,15 @@ class ReviewListView(ListView):
 class ReviewDetailView(DetailView):
     template_name = 'reviews/review_detail.html'
     model = Review
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        loaded_review = self.object
+        request = self.request
+        fav_id = request.session.get("favorite_review")
+        # use .get() instead of accessing like keys in dictionary ["favorite_review"] to avoid errors in case data hasn't been set before
+        context["is_fav"] = fav_id == str(loaded_review.id)
+        return context
     
 
 class ThanksView(TemplateView):
