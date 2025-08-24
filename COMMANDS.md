@@ -285,4 +285,9 @@ Review.objects.all()[0].review_text
 # FILE UPLOADS
 ```
 python manage.py startapp profiles
+python manage.py shell
+from profiles.models import UserProfile
+UserProfile.objects.all()[0].image
+UserProfile.objects.all()[0].image.path
+UserProfile.objects.all()[0].image.size
 ```
