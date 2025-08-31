@@ -1,3 +1,6 @@
+## VENV
+When I activate a virtual environment, it works globally within my shell session. I can navigate to any folder, even restricted ones, and any dependencies I install will still be stored inside the virtual environment without affecting those folders. Also, all commands will use the dependencies installed in the virtual environment.
+
 ## Django Practice and Notes
 
 - when we extend a template in django, the extended template gets the context of parent template
